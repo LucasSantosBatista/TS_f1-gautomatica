@@ -1,0 +1,123 @@
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+public class ProdutoTest {
+
+    @Test
+    public void testDescricaoValida() {
+        Produto produto = new Produto("Descrição Válida", "Categoria", "10.50", "5");
+        assertEquals("Descrição Válida", produto.getDescricao());
+    }
+
+    @Test
+    public void testDescricaoVazia() {
+        assertThrows(IllegalArgumentException.class, () -> new Produto("", "Categoria", "10.50", "5"));
+    }
+
+    @Test
+    public void testCategoriaValida() {
+        Produto produto = new Produto("Descrição", "Categoria Válida", "10.50", "5");
+        assertEquals("Categoria Válida", produto.getCategoria());
+    }
+
+    @Test
+    public void testCategoriaVazia() {
+        assertThrows(IllegalArgumentException.class, () -> new Produto("Descrição", "", "10.50", "5"));
+    }
+
+    @Test
+    public void testCustoValido() {
+        Produto produto = new Produto("Descrição", "Categoria", "10.50", "5");
+        assertEquals(10.50, produto.getCusto(), 0.01);
+    }
+
+    @Test
+    public void testCustoZeroOuNegativo() {
+        assertThrows(IllegalArgumentException.class, () -> new Produto("Descrição", "Categoria", "0", "5"));
+        assertThrows(IllegalArgumentException.class, () -> new Produto("Descrição", "Categoria", "-10", "5"));
+    }
+
+    @Test
+    public void testQuantidadeValida() {
+        Produto produto = new Produto("Descrição", "Categoria", "10.50", "5");
+        assertEquals(5, produto.getQuantidadeNoEstoque());
+    }
+
+    @Test
+    public void testQuantidadeNegativa() {
+        assertThrows(IllegalArgumentException.class, () -> new Produto("Descrição", "Categoria", "10.50", "-5"));
+    }
+
+    @Test
+    public void testEquals() {
+        Produto produto1 = new Produto("Descrição", "Categoria", "10.50", "5");
+        Produto produto2 = new Produto("Descrição", "Categoria", "10.50", "5");
+        assertEquals(produto1, produto2);
+    }
+
+    @Test
+    public void testNotEquals() {
+        Produto produto1 = new Produto("Descrição", "Categoria", "10.50", "5");
+        Produto produto2 = new Produto("Outra Descrição", "Outra Categoria", "20.00", "10");
+        assertNotEquals(produto1, produto2);
+    }
+
+    @Test
+    public void testHashCode() {
+        Produto produto1 = new Produto("Descrição", "Categoria", "10.50", "5");
+        Produto produto2 = new Produto("Descrição", "Categoria", "10.50", "5");
+        assertEquals(produto1.hashCode(), produto2.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        Produto produto = new Produto("Descrição", "Categoria", "10.50", "5");
+        assertEquals("Produto [id=null, descricao=Descrição, categoria=Categoria, custo=10.5, quantidadeNoEstoque=5]", produto.toString());
+    }
+
+    @Test
+    public void testSettersAndGetters() {
+        Produto produto = new Produto();
+        produto.setDescricao("Nova Descrição");
+        produto.setCategoria("Nova Categoria");
+        produto.setCusto("15.75");
+        produto.setQuantidadeNoEstoque("8");
+
+        assertEquals("Nova Descrição", produto.getDescricao());
+        assertEquals("Nova Categoria", produto.getCategoria());
+        assertEquals(15.75, produto.getCusto(), 0.01);
+        assertEquals(8, produto.getQuantidadeNoEstoque());
+    }
+
+    @Test
+    public void testSetDescricaoNula() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Produto produto = new Produto();
+            produto.setDescricao(null);
+        });
+    }
+
+    @Test
+    public void testSetCategoriaNula() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Produto produto = new Produto();
+            produto.setCategoria(null);
+        });
+    }
+
+    @Test
+    public void testSetCustoInvalido() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Produto produto = new Produto();
+            produto.setCusto("-10.50");
+        });
+    }
+
+    @Test
+    public void testSetQuantidadeNoEstoqueInvalida() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Produto produto = new Produto();
+            produto.setQuantidadeNoEstoque("-5");
+        });
+    }
+}
